@@ -2,7 +2,6 @@ import requests
 import streamlit as st
 import pandas as pd
 import urllib3
-import time
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -14,47 +13,32 @@ cities = [
     "苗栗縣","雲林縣","花蓮縣","臺中市","臺東縣","桃園市","南投縣","高雄市",
     "金門縣","屏東縣","基隆市","澎湖縣","彰化縣","連江縣"
 ]
-
 CITY = st.selectbox("選擇城市", cities)
 
 url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={API_KEY}&locationName={CITY}"
 
-# 重試機制
-for i in range(3):
-    try:
-        res = requests.get(url, verify=False, timeout=5)
-        if res.status_code == 200:
-            break
-    except requests.RequestException:
-        pass
-    time.sleep(1)
-else:
-    st.error("❌ API 連線失敗，請稍後再試")
-    st.stop()
+def fetch_weather(url, retries=3):
+    for _ in range(retries):
+        try:
+            res = requests.get(url, verify=False, timeout=5)
+            if res.status_code == 200:
+                return res.json()
+        except requests.RequestException:
+            continue
+    return {}
 
-# 安全解析 JSON
-try:
-    data = res.json()
-except ValueError:
-    st.error("❌ API 回傳非 JSON，請檢查 API Key 或網路")
-    st.stop()
-
-records = data.get("records", {})
-locations = records.get("location", [])
-
+data = fetch_weather(url)
+locations = data.get("records", {}).get("location", [])
 if not locations:
-    st.error("❌ API 回傳空資料，請檢查 API Key 或城市名稱")
-    st.stop()
+    locations = [{}]  # 空資料也不會報錯
 
 location = locations[0]
 
-st.subheader(f"{location['locationName']} — 36 小時天氣預報")
+st.subheader(f"{location.get('locationName','')} — 36 小時天氣預報")
 
-rows = []
-for element in location.get("weatherElement", []):
-    name = element.get("elementName", "")
-    value = element.get("time", [{}])[0].get("parameter", {}).get("parameterName", "")
-    rows.append({"項目": name, "值": value})
-
-df = pd.DataFrame(rows)
+df = pd.DataFrame([
+    {"項目": el.get("elementName", ""),
+     "值": el.get("time", [{}])[0].get("parameter", {}).get("parameterName", "")}
+    for el in location.get("weatherElement", [])
+])
 st.table(df)
