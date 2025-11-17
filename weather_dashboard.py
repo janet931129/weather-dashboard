@@ -9,7 +9,6 @@ CITY = "Taipei"
 url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={API_KEY}&locationName={CITY}"
 
 res = requests.get(url, verify=False)
-data = res.json()
 
-print("=== API 測試回傳 ===")
-print(data)
+print("HTTP Status:", res.status_code)
+print("Response Text:", res.text[:500])  # 只印前500字
