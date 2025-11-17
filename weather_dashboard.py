@@ -9,7 +9,13 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.title("🌤 台灣氣象資料 Dashboard")
 
 API_KEY = st.secrets["CWA_API_KEY"]
-CITY = st.selectbox("選擇城市", ["Taipei", "Taichung", "Kaohsiung"])
+cities = [
+    "嘉義縣","新北市","嘉義市","新竹縣","新竹市","臺北市","臺南市","宜蘭縣",
+    "苗栗縣","雲林縣","花蓮縣","臺中市","臺東縣","桃園市","南投縣","高雄市",
+    "金門縣","屏東縣","基隆市","澎湖縣","彰化縣","連江縣"
+]
+
+CITY = st.selectbox("選擇城市", cities)
 
 url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={API_KEY}&locationName={CITY}"
 
