@@ -15,7 +15,7 @@ url = (
     f"?Authorization={API_KEY}&locationName={LOCATION}"
 )
 
-res = requests.get(url, timeout=10)
+res = requests.get(url, verify=False)
 data = res.json()
 
 try:
