@@ -1,6 +1,10 @@
 import requests
 import streamlit as st
 import pandas as pd
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 st.set_page_config(page_title="台灣氣象 Dashboard", layout="centered")
 st.title("🌤 台灣氣象資料 Dashboard")
