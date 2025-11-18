@@ -49,13 +49,11 @@ MinT = weather_dict.get("MinT", "—")
 MaxT = weather_dict.get("MaxT", "—")
 CI = weather_dict.get("CI", "—")
 
-# ------ UI Card Style (米色背景) ------
+# ------ UI Card Style ------
 card_style = """
-padding:10px;
+padding:8px 12px;
 border-radius:12px;
-margin-bottom:8px;
-background:#F5F5DC;  /* 米色背景 */
-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+margin-bottom:6px;
 """
 
 title_style = "font-size:22px; font-weight:700; margin-bottom:6px;"
@@ -65,40 +63,45 @@ col1, col2 = st.columns(2)
 
 # ------------------ 卡片：天氣狀況 -------------------
 with col1:
-    st.markdown(f"""
-    <div style="{card_style}">
-        <h3 style="{title_style}">🌦 天氣狀況</h3>
-        <p style="{value_style}">{Wx}</p>
+    st.markdown("""
+    <div style="{style} background:#F1F8FF">
+        <h3 style="{title}">🌦 天氣狀況</h3>
+        <p style="{value}">{Wx}</p>
     </div>
-    """ , unsafe_allow_html=True)
+    """.format(style=card_style, title=title_style, value=value_style, Wx=Wx),
+    unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div style="{card_style}">
-        <h3 style="{title_style}">🌡 最高溫</h3>
-        <p style="{value_style}">{MaxT} ℃</p>
+    st.markdown("""
+    <div style="{style} background:#FFF7E6">
+        <h3 style="{title}">🌡 最高溫</h3>
+        <p style="{value}">{MaxT} ℃</p>
     </div>
-    """ , unsafe_allow_html=True)
+    """.format(style=card_style, title=title_style, value=value_style, MaxT=MaxT),
+    unsafe_allow_html=True)
 
 # ------------------ 卡片：降雨機率 + 最低溫 -------------------
 with col2:
-    st.markdown(f"""
-    <div style="{card_style}">
-        <h3 style="{title_style}">🌧 降雨機率</h3>
-        <p style="{value_style}">{PoP} %</p>
+    st.markdown("""
+    <div style="{style} background:#E8FFF3">
+        <h3 style="{title}">🌧 降雨機率</h3>
+        <p style="{value}">{PoP} %</p>
     </div>
-    """ , unsafe_allow_html=True)
+    """.format(style=card_style, title=title_style, value=value_style, PoP=PoP),
+    unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div style="{card_style}">
-        <h3 style="{title_style}">❄ 最低溫</h3>
-        <p style="{value_style}">{MinT} ℃</p>
+    st.markdown("""
+    <div style="{style} background:#F3F0FF">
+        <h3 style="{title}">❄ 最低溫</h3>
+        <p style="{value}">{MinT} ℃</p>
     </div>
-    """ , unsafe_allow_html=True)
+    """.format(style=card_style, title=title_style, value=value_style, MinT=MinT),
+    unsafe_allow_html=True)
 
 # ------------------ 舒適度 -------------------
-st.markdown(f"""
-<div style="{card_style}">
-    <h3 style="{title_style}">😊 舒適度</h3>
-    <p style="{value_style}">{CI}</p>
+st.markdown("""
+<div style="{style} background:#EFF1F5">
+    <h3 style="{title}">😊 舒適度</h3>
+    <p style="font-size:18px;">{CI}</p>
 </div>
-""" , unsafe_allow_html=True)
+""".format(style=card_style, title=title_style, CI=CI),
+unsafe_allow_html=True)
