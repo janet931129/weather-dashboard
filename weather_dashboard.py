@@ -99,7 +99,7 @@ with col2:
 
 # ------------------ 舒適度 -------------------
 st.markdown("""
-<div style="{style} background:#E8E8E8">
+<div style="{style} background:#EFF1F5">
     <h3 style="{title}">😊 舒適度</h3>
     <p style="font-size:18px;">{CI}</p>
 </div>
