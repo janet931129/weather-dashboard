@@ -51,9 +51,9 @@ CI = weather_dict.get("CI", "—")
 
 # ------ UI Card Style ------
 card_style = """
-padding:12px;
+padding:8px 12px;
 border-radius:12px;
-margin-bottom:10px;
+margin-bottom:6px;
 """
 
 title_style = "font-size:22px; font-weight:700; margin-bottom:6px;"
