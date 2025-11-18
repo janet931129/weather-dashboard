@@ -34,13 +34,14 @@ location = locations[0] if locations else {}
 
 weather_data = location.get("weatherElement", [])
 
-# ---- UI Section ----
 st.markdown(f"<h2 style='text-align:center;'>{CITY} — 36 小時天氣預報</h2>", unsafe_allow_html=True)
 st.write("")
 
-# 轉成字典方便取值
-weather_dict = {item["elementName"]: item["time"][0]["parameter"]["parameterName"]
-                for item in weather_data}
+# ---- Parse Data ----
+weather_dict = {
+    item["elementName"]: item["time"][0]["parameter"]["parameterName"]
+    for item in weather_data
+}
 
 Wx = weather_dict.get("Wx", "—")
 PoP = weather_dict.get("PoP", "—")
@@ -48,10 +49,11 @@ MinT = weather_dict.get("MinT", "—")
 MaxT = weather_dict.get("MaxT", "—")
 CI = weather_dict.get("CI", "—")
 
+# ------ UI Card Style ------
 card_style = """
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:10px;
+padding:12px;
+border-radius:12px;
+margin-bottom:10px;
 """
 
 title_style = "font-size:16px; margin-bottom:6px;"
@@ -59,8 +61,47 @@ value_style = "font-size:20px;"
 
 col1, col2 = st.columns(2)
 
+# ------------------ 卡片：天氣狀況 -------------------
 with col1:
-    st.markdown(f"""
-    <div style="{card_style} background:#F1F8FF">
-        <h3 style="{title_style}">🌦 天氣狀況</h3>
-        <p style="{
+    st.markdown("""
+    <div style="{style} background:#F1F8FF">
+        <h3 style="{title}">🌦 天氣狀況</h3>
+        <p style="{value}">{Wx}</p>
+    </div>
+    """.format(style=card_style, title=title_style, value=value_style, Wx=Wx),
+    unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="{style} background:#FFF7E6">
+        <h3 style="{title}">🌡 最高溫</h3>
+        <p style="{value}">{MaxT} ℃</p>
+    </div>
+    """.format(style=card_style, title=title_style, value=value_style, MaxT=MaxT),
+    unsafe_allow_html=True)
+
+# ------------------ 卡片：降雨機率 + 最低溫 -------------------
+with col2:
+    st.markdown("""
+    <div style="{style} background:#E8FFF3">
+        <h3 style="{title}">🌧 降雨機率</h3>
+        <p style="{value}">{PoP} %</p>
+    </div>
+    """.format(style=card_style, title=title_style, value=value_style, PoP=PoP),
+    unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="{style} background:#F3F0FF">
+        <h3 style="{title}">❄ 最低溫</h3>
+        <p style="{value}">{MinT} ℃</p>
+    </div>
+    """.format(style=card_style, title=title_style, value=value_style, MinT=MinT),
+    unsafe_allow_html=True)
+
+# ------------------ 舒適度 -------------------
+st.markdown("""
+<div style="{style} background:#FFF0F5">
+    <h3 style="{title}">😊 舒適度</h3>
+    <p style="font-size:20px;">{CI}</p>
+</div>
+""".format(style=card_style, title=title_style, CI=CI),
+unsafe_allow_html=True)
