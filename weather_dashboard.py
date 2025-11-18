@@ -56,8 +56,8 @@ border-radius:12px;
 margin-bottom:10px;
 """
 
-title_style = "font-size:16px; margin-bottom:6px;"
-value_style = "font-size:20px;"
+title_style = "font-size:22px; font-weight:700; margin-bottom:6px;"
+value_style = "font-size:18px;"
 
 col1, col2 = st.columns(2)
 
@@ -99,9 +99,9 @@ with col2:
 
 # ------------------ 舒適度 -------------------
 st.markdown("""
-<div style="{style} background:#FFF0F5">
+<div style="{style} background:#E8E8E8">
     <h3 style="{title}">😊 舒適度</h3>
-    <p style="font-size:20px;">{CI}</p>
+    <p style="font-size:18px;">{CI}</p>
 </div>
 """.format(style=card_style, title=title_style, CI=CI),
 unsafe_allow_html=True)
