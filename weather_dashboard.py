@@ -34,14 +34,13 @@ location = locations[0] if locations else {}
 
 weather_data = location.get("weatherElement", [])
 
+# ---- UI Section ----
 st.markdown(f"<h2 style='text-align:center;'>{CITY} — 36 小時天氣預報</h2>", unsafe_allow_html=True)
 st.write("")
 
-# ---- Parse Data ----
-weather_dict = {
-    item["elementName"]: item["time"][0]["parameter"]["parameterName"]
-    for item in weather_data
-}
+# 轉成字典方便取值
+weather_dict = {item["elementName"]: item["time"][0]["parameter"]["parameterName"]
+                for item in weather_data}
 
 Wx = weather_dict.get("Wx", "—")
 PoP = weather_dict.get("PoP", "—")
@@ -49,7 +48,6 @@ MinT = weather_dict.get("MinT", "—")
 MaxT = weather_dict.get("MaxT", "—")
 CI = weather_dict.get("CI", "—")
 
-# ------ UI Card Style (縮小版) ------
 card_style = """
     padding:12px;
     border-radius:12px;
