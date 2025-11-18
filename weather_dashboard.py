@@ -98,10 +98,16 @@ with col2:
     unsafe_allow_html=True)
 
 # ------------------ 舒適度 -------------------
-st.markdown("""
-<div style="{style} background:#EFF1F5">
-    <h3 style="{title}">😊 舒適度</h3>
-    <p style="font-size:18px;">{CI}</p>
+st.markdown(f"""
+<div style="
+    padding:8px 12px;
+    border-radius:12px;
+    margin-bottom:6px;
+    background:#FFFFFF;
+    border:1px solid #DDD;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+">
+    <h3 style="{title_style}">😊 舒適度</h3>
+    <p style="{value_style}">{CI}</p>
 </div>
-""".format(style=card_style, title=title_style, CI=CI),
-unsafe_allow_html=True)
+""", unsafe_allow_html=True)
