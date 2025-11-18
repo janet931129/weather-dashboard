@@ -54,8 +54,8 @@ card_style = """
 padding:10px;
 border-radius:12px;
 margin-bottom:8px;
-background:#fff;
-border-left:5px solid {border_color};
+background:#ffffff;
+box-shadow: 0 1px 3px rgba(0,0,0,0.1);  /* 輕微陰影讓卡片分層 */
 """
 
 title_style = "font-size:22px; font-weight:700; margin-bottom:6px;"
@@ -66,14 +66,14 @@ col1, col2 = st.columns(2)
 # ------------------ 卡片：天氣狀況 -------------------
 with col1:
     st.markdown(f"""
-    <div style="{card_style.format(border_color='#4A90E2')}">
+    <div style="{card_style}">
         <h3 style="{title_style}">🌦 天氣狀況</h3>
         <p style="{value_style}">{Wx}</p>
     </div>
     """ , unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style="{card_style.format(border_color='#FFA500')}">
+    <div style="{card_style}">
         <h3 style="{title_style}">🌡 最高溫</h3>
         <p style="{value_style}">{MaxT} ℃</p>
     </div>
@@ -82,14 +82,14 @@ with col1:
 # ------------------ 卡片：降雨機率 + 最低溫 -------------------
 with col2:
     st.markdown(f"""
-    <div style="{card_style.format(border_color='#00B050')}">
+    <div style="{card_style}">
         <h3 style="{title_style}">🌧 降雨機率</h3>
         <p style="{value_style}">{PoP} %</p>
     </div>
     """ , unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style="{card_style.format(border_color='#A020F0')}">
+    <div style="{card_style}">
         <h3 style="{title_style}">❄ 最低溫</h3>
         <p style="{value_style}">{MinT} ℃</p>
     </div>
@@ -97,7 +97,7 @@ with col2:
 
 # ------------------ 舒適度 -------------------
 st.markdown(f"""
-<div style="{card_style.format(border_color='#808080')}">
+<div style="{card_style}">
     <h3 style="{title_style}">😊 舒適度</h3>
     <p style="{value_style}">{CI}</p>
 </div>
