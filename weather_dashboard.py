@@ -53,38 +53,38 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown(f"""
-    <div style="padding:20px;border-radius:12px;background:#F1F8FF">
-        <h3>🌦 天氣狀況</h3>
-        <p style="font-size:22px;">{Wx}</p>
+    <div style="padding:18px;border-radius:10px;background:#F1F8FF">
+        <h3>⛅️ 天氣狀況</h3>
+        <p style="font-size:18px;">{Wx}</p>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style="padding:20px;margin-top:15px;border-radius:12px;background:#FFF7E6">
+    <div style="padding:18px;margin-top:15px;border-radius:10px;background:#FFF7E6">
         <h3>🌡 最高溫</h3>
-        <p style="font-size:22px;">{MaxT} ℃</p>
+        <p style="font-size:18px;">{MaxT} ℃</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown(f"""
-    <div style="padding:20px;border-radius:12px;background:#E8FFF3">
+    <div style="padding:18px;border-radius:10px;background:#E8FFF3">
         <h3>🌧 降雨機率</h3>
-        <p style="font-size:22px;">{PoP}%</p>
+        <p style="font-size:18px;">{PoP}%</p>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style="padding:20px;margin-top:15px;border-radius:12px;background:#FFECEC">
+    <div style="padding:18px;margin-top:15px;border-radius:10px;background:#FFECEC">
         <h3>🌡 最低溫</h3>
-        <p style="font-size:22px;">{MinT} ℃</p>
+        <p style="font-size:18px;">{MinT} ℃</p>
     </div>
     """, unsafe_allow_html=True)
 
 # ---- Comfort Index ----
 st.markdown("""
-<div style="padding:22px;margin-top:20px;border-radius:12px;background:#F6F6F6">
+<div style="padding:18px;margin-top:20px;border-radius:10px;background:#F6F6F6">
     <h3>🧘‍♂️ 舒適度指數</h3>
-    <p style="font-size:22px;">{CI}</p>
+    <p style="font-size:18px;">{CI}</p>
 </div>
 """.format(CI=CI), unsafe_allow_html=True)
