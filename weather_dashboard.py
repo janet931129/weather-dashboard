@@ -1,9 +1,6 @@
 import requests
 import streamlit as st
 import pandas as pd
-import urllib3
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 st.title("🌤 台灣氣象資料 Dashboard")
 
