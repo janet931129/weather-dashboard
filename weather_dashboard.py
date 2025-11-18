@@ -5,7 +5,10 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-st.title("🌤 台灣氣象資料 Dashboard")
+st.set_page_config(page_title="台灣天氣 Dashboard", layout="centered")
+
+# ---- Title ----
+st.markdown("<h1 style='text-align:center;'>🌤 台灣氣象資料 Dashboard</h1>", unsafe_allow_html=True)
 
 API_KEY = st.secrets["CWA_API_KEY"]
 cities = [
@@ -13,32 +16,75 @@ cities = [
     "苗栗縣","雲林縣","花蓮縣","臺中市","臺東縣","桃園市","南投縣","高雄市",
     "金門縣","屏東縣","基隆市","澎湖縣","彰化縣","連江縣"
 ]
-CITY = st.selectbox("選擇城市", cities)
+
+CITY = st.selectbox("📍 選擇城市", cities)
 
 url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization={API_KEY}&locationName={CITY}"
 
-def fetch_weather(url, retries=3):
-    for _ in range(retries):
-        try:
-            res = requests.get(url, verify=False, timeout=5)
-            if res.status_code == 200:
-                return res.json()
-        except requests.RequestException:
-            continue
-    return {}
+def fetch_weather(url):
+    try:
+        res = requests.get(url, verify=False, timeout=8)
+        return res.json() if res.status_code == 200 else {}
+    except:
+        return {}
 
 data = fetch_weather(url)
 locations = data.get("records", {}).get("location", [])
-if not locations:
-    locations = [{}]  # 空資料也不會報錯
+location = locations[0] if locations else {}
 
-location = locations[0]
+weather_data = location.get("weatherElement", [])
 
-st.subheader(f"{location.get('locationName','')} — 36 小時天氣預報")
+# ---- UI Section ----
+st.markdown(f"<h2 style='text-align:center;'>{CITY} — 36 小時天氣預報</h2>", unsafe_allow_html=True)
+st.write("")
 
-df = pd.DataFrame([
-    {"項目": el.get("elementName", ""),
-     "值": el.get("time", [{}])[0].get("parameter", {}).get("parameterName", "")}
-    for el in location.get("weatherElement", [])
-])
-st.table(df)
+# 轉成字典方便取值
+weather_dict = {item["elementName"]: item["time"][0]["parameter"]["parameterName"]
+                for item in weather_data}
+
+Wx = weather_dict.get("Wx", "—")
+PoP = weather_dict.get("PoP", "—")
+MinT = weather_dict.get("MinT", "—")
+MaxT = weather_dict.get("MaxT", "—")
+CI = weather_dict.get("CI", "—")
+
+# ---- Weather Display Cards ----
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown(f"""
+    <div style="padding:20px;border-radius:12px;background:#F1F8FF">
+        <h3>🌦 天氣狀況</h3>
+        <p style="font-size:22px;">{Wx}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="padding:20px;margin-top:15px;border-radius:12px;background:#FFF7E6">
+        <h3>🌡 最高溫</h3>
+        <p style="font-size:22px;">{MaxT} ℃</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div style="padding:20px;border-radius:12px;background:#E8FFF3">
+        <h3>🌧 降雨機率</h3>
+        <p style="font-size:22px;">{PoP}%</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="padding:20px;margin-top:15px;border-radius:12px;background:#FFECEC">
+        <h3>🌡 最低溫</h3>
+        <p style="font-size:22px;">{MinT} ℃</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ---- Comfort Index ----
+st.markdown("""
+<div style="padding:22px;margin-top:20px;border-radius:12px;background:#F6F6F6">
+    <h3>🧘‍♂️ 舒適度指數</h3>
+    <p style="font-size:22px;">{CI}</p>
+</div>
+""".format(CI=CI), unsafe_allow_html=True)
